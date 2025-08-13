@@ -1,10 +1,8 @@
-// src/app/api/contact/route.js
 import { Resend } from "resend";
 import { z } from "zod";
 
-export const runtime = "nodejs"; // ensure Node runtime for Resend
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic"; // ensure it's not prerendered
 
 const ContactSchema = z.object({
   name: z.string().min(2).max(120),
@@ -13,12 +11,28 @@ const ContactSchema = z.object({
   address: z.string().max(300).optional().nullable(),
   propertyType: z.enum(["Residential", "Commercial"]).optional().nullable(),
   message: z.string().min(1).max(4000),
-  company: z.string().optional().nullable(), // honeypot
+  company: z.string().optional().nullable(),
 });
 
-console.log("RESEND_API_KEY loaded?", process.env.RESEND_API_KEY?.startsWith("re_"));
-console.log("CONTACT_TO:", process.env.CONTACT_TO);
-console.log("CONTACT_FROM:", process.env.CONTACT_FROM);
+// Lazy init to avoid build-time crash
+let resend;
+function getResend() {
+  if (!resend) {
+    const key = process.env.RESEND_API_KEY;
+    if (!key) throw new Error("RESEND_API_KEY is missing");
+    resend = new Resend(key);
+  }
+  return resend;
+}
+
+function esc(str = "") {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
 export async function POST(req) {
   try {
@@ -29,13 +43,13 @@ export async function POST(req) {
     }
     const body = parsed.data;
 
-    // Honeypot trap: if filled, pretend success
+    // honeypot
     if (body.company && body.company.trim() !== "") {
       return Response.json({ ok: true });
     }
 
     const to = process.env.CONTACT_TO || "info@basinbrightwindows.com";
-    const from = process.env.CONTACT_FROM || "info@basinbrightwindows.com"; // your verified sender
+    const from = process.env.CONTACT_FROM || "info@basinbrightwindows.com";
 
     const html = `
       <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial">
@@ -50,37 +64,17 @@ export async function POST(req) {
       </div>
     `;
 
-    await resend.emails.send({
-        to,
-        from: `Basin Bright Windows <${from}>`,   // friendly name
-        replyTo: body.email,                      // replies go to the customer
-        subject: `New quote request from ${body.name}`,
-        html,                                     // your existing HTML
-        text: [
-          `New quote request`,
-          `Name: ${body.name}`,
-          `Email: ${body.email}`,
-          body.phone ? `Phone: ${body.phone}` : ``,
-          body.address ? `Address: ${body.address}` : ``,
-          body.propertyType ? `Property Type: ${body.propertyType}` : ``,
-          ``,
-          `Message:`,
-          `${body.message}`
-        ].filter(Boolean).join('\n')
-      });
+    await getResend().emails.send({
+      to,
+      from,
+      replyTo: body.email,
+      subject: `New quote request from ${body.name}`,
+      html,
+    });
 
     return Response.json({ ok: true });
   } catch (err) {
     console.error("Contact API error:", err);
     return Response.json({ ok: false, error: "Server error" }, { status: 500 });
   }
-}
-
-function esc(str = "") {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
