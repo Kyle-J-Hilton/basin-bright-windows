@@ -102,3 +102,14 @@
     .fieldRow { grid-template-columns: 1fr 1fr; }
   }
   
+  /* ensure select height matches inputs */
+.field select {
+    height: 46px;                 /* roughly input height incl. padding */
+    appearance: none;
+  }
+  
+  /* inline error */
+  .errorText { color:#b91c1c; font-size:13px; margin-top:4px; }
+  
+  /* trust line under button */
+  .trust { color:#64748b; font-size:13px; }
