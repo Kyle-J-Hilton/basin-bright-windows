@@ -1,110 +1,76 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./testimonials.module.css";
 
-const seed = [
-  { name: "David R.", rating: 5, text: "The best window cleaning service I’ve ever used! My windows look amazing." },
-  { name: "Sarah M.", rating: 5, text: "On-time, efficient, and super friendly. Highly recommend." },
-];
-
 export default function TestimonialsPage() {
-  const [reviews, setReviews] = useState(seed);
-  const [status, setStatus] = useState({ state: "idle", msg: "" });
+  const [name, setName] = useState("");
+  const [rating, setRating] = useState(5);
+  const [review, setReview] = useState("");
+  const [reviews, setReviews] = useState([
+    { name: "David R.", rating: 5, text: "The best window cleaning service I’ve ever used! My windows look amazing." },
+    { name: "Sarah M.", rating: 5, text: "On-time, efficient, and super friendly. Highly recommend." },
+  ]);
 
-  // Load saved reviews (keeps them visible after refresh)
-  useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem("bb_reviews") || "[]");
-      if (saved.length) setReviews(prev => [...saved, ...prev]);
-    } catch {}
-  }, []);
-
-  async function onSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus({ state: "submitting", msg: "" });
+    if (!name || !review) return;
+    setReviews([{ name, rating: Number(rating), text: review }, ...reviews]);
+    setName("");
+    setRating(5);
+    setReview("");
+  };
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
-    const rating = Number(payload.rating || 5);
-
-    // optimistic UI (store locally)
-    const newReview = { name: payload.name || "Anonymous", rating, text: payload.text || "" };
-    setReviews(prev => [newReview, ...prev]);
-    try {
-      const existing = JSON.parse(localStorage.getItem("bb_reviews") || "[]");
-      localStorage.setItem("bb_reviews", JSON.stringify([newReview, ...existing]));
-    } catch {}
-
-    // send to your inbox via Resend (optional but recommended)
-    try {
-      const res = await fetch("/api/review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error();
-      setStatus({ state: "success", msg: "Thanks for your review!" });
-      form.reset();
-    } catch {
-      setStatus({ state: "error", msg: "Saved locally. Couldn’t send to the server." });
-    }
-  }
+  const renderStars = (count) => "★".repeat(count) + "☆".repeat(5 - count);
 
   return (
     <main className={styles.page}>
-      <section className={styles.headerBlock}>
-        <h1>Testimonials</h1>
-        <p>Read what neighbors say—and leave your own review.</p>
-      </section>
+      <div className={styles.container}>
+        <section className={styles.headerBlock}>
+          <h1>Testimonials</h1>
+          <p>Read what neighbors say—and leave your own review.</p>
+        </section>
 
-      <section className={styles.grid}>
-        <form className={styles.card} onSubmit={onSubmit}>
-          <h2 className={styles.h2}>Leave a Review</h2>
+        <div className={styles.content}>
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <label>Name</label>
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
 
-          <label className={styles.field}>
-            <span>Name</span>
-            <input name="name" type="text" placeholder="Your name" />
-          </label>
-
-          <label className={styles.field}>
-            <span>Rating</span>
-            <select name="rating" defaultValue="5">
-              {[5,4,3,2,1].map(r => (
-                <option key={r} value={r}>{r} ★</option>
+            <label>Rating</label>
+            <select value={rating} onChange={(e) => setRating(e.target.value)}>
+              {[5, 4, 3, 2, 1].map((n) => (
+                <option key={n} value={n}>
+                  {n} ★
+                </option>
               ))}
             </select>
-          </label>
 
-          <label className={styles.field}>
-            <span>Your Review</span>
-            <textarea name="text" rows={5} required placeholder="What did you like?" />
-          </label>
+            <label>Your Review</label>
+            <textarea
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              placeholder="What did you like?"
+              rows="4"
+            />
 
-          <button className={styles.primaryBtn} disabled={status.state === "submitting"}>
-            {status.state === "submitting" ? "Submitting…" : "Post Review"}
-          </button>
+            <button type="submit" className={styles.submitBtn}>
+              Post Review
+            </button>
+          </form>
 
-          {status.state === "success" && <p className={styles.success}>✅ {status.msg}</p>}
-          {status.state === "error" && <p className={styles.error}>⚠️ {status.msg}</p>}
-        </form>
-
-        <ul className={styles.list}>
-          {reviews.map((r, i) => (
-            <li key={i} className={styles.review}>
-              <div className={styles.reviewHead}>
-                <strong>{r.name}</strong>
-                <span className={styles.stars} aria-label={`${r.rating} out of 5 stars`}>
-                  {"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}
-                </span>
+          <div className={styles.reviews}>
+            {reviews.map((r, i) => (
+              <div key={i} className={styles.reviewCard}>
+                <div>
+                  <strong>{r.name}</strong>
+                  <p>{r.text}</p>
+                </div>
+                <div className={styles.stars}>{renderStars(r.rating)}</div>
               </div>
-              <p>{r.text}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+            ))}
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
