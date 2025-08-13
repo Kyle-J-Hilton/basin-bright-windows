@@ -1,0 +1,79 @@
+.page {
+    padding: 96px 16px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #f8fafc;     
+  }
+  
+  /* Intro */
+  .hero { margin-bottom: 20px; }
+  .hero h1 {
+    margin: 0 0 6px;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #0f172a;
+  }
+  .hero p { margin: 0; color: #475569; }
+  
+  /* Grid of services */
+  .grid {
+    display: grid;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+  .card h2 {
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  .lead { margin: 0 0 10px; color: #334155; }
+  .list {
+    margin: 0; padding-left: 18px;
+    color: #1f2937;
+  }
+  .list li { margin: 6px 0; }
+  .note { margin: 10px 0 0; font-size: 14px; color: #64748b; }
+  
+  /* CTA footer */
+  .footerCta { margin-top: 20px; }
+  .ctaBox {
+    display: grid;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+    background: linear-gradient(180deg,#ffffff, #f8fbff);
+    box-shadow: 0 8px 22px rgba(44,134,182,.10);
+  }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .primaryBtn {
+    background: #2c86b6; color: #fff; font-weight: 700;
+    border: 0; border-radius: 12px; padding: 12px 18px; text-decoration: none;
+    box-shadow: 0 8px 20px rgba(44,134,182,.28);
+  }
+  .primaryBtn:hover { background: #236b90; }
+  .secondaryBtn {
+    background: #fff; color: #0f172a; font-weight: 700;
+    border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 18px; text-decoration: none;
+  }
+  .secondaryBtn:hover { background: #f8fafc; }
+  .disclaimer { margin: 10px 2px 0; color: #64748b; font-size: 13px; }
+  
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+    .ctaBox {
+      grid-template-columns: 1fr auto;
+      padding: 20px;
+    }
+  }
+  

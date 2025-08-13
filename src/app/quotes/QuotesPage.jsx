@@ -44,6 +44,12 @@ export default function QuotesPage() {
           This is an estimate for exterior + standard cleaning. Exact pricing may vary based on stories,
           window count, screens, access, and hard-water removal.
         </p>
+
+        <div className={styles.actions}>
+          <a href="/contact" className={styles.primaryBtn}>Request a Detailed Quote</a>
+          <a href="/testimonials" className={styles.secondaryBtn}>Read Reviews</a>
+        </div>
+
       </section>
     </main>
   );

@@ -1,46 +1,35 @@
-.page {
-    padding: 100px 16px 48px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .headerBlock h1 {
-    margin: 0 0 6px; font-size: clamp(28px, 5vw, 40px); font-weight: 800; letter-spacing: -0.01em;
-  }
-  .headerBlock p { margin: 0 0 16px; color: #475569; }
-  
-  .grid {
-    display: grid; gap: 16px;
-  }
-  .card {
-    background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px;
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
-  }
-  .h2 { margin: 0 0 10px; font-size: 20px; font-weight: 800; }
-  .field { display: grid; gap: 8px; margin-bottom: 12px; }
-  .field > span { color: #334155; font-weight: 600; font-size: 14px; }
-  .field input, .field select, .field textarea {
-    width: 100%; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 12px; font-size: 16px; background: #fff;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    outline: none; border-color: #2c86b6; box-shadow: 0 0 0 4px rgba(44,134,182,.15);
-  }
-  .primaryBtn {
-    background: #2c86b6; color: #fff; font-weight: 700; border: 0; border-radius: 12px; padding: 12px 18px; cursor: pointer;
-    box-shadow: 0 8px 20px rgba(44,134,182,.28);
-  }
-  .primaryBtn:hover { background: #236b90; }
-  .success { color:#166534; background:#ecfdf5; border:1px solid #86efac; padding:10px 12px; border-radius:10px; margin-top:8px; }
-  .error   { color:#7f1d1d; background:#fef2f2; border:1px solid #fecaca; padding:10px 12px; border-radius:10px; margin-top:8px; }
-  
-  .list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-  .review {
-    border: 1px solid #e5e7eb; border-radius: 16px; background:#fff; padding: 14px 16px;
-  }
-  .reviewHead { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
-  .stars { color: #f59e0b; letter-spacing: 1px; }
-  
-  @media (min-width: 900px) {
-    .grid { grid-template-columns: 360px 1fr; align-items: start; gap: 20px; }
-    .card { position: sticky; top: 96px; }
-  }
-  
+.page { background:#f8fafc; padding: 100px 16px 48px; max-width: 1100px; margin: 0 auto; }
+.headerBlock h1 { margin:0 0 6px; font-size:clamp(28px,5vw,40px); font-weight:800; color:#0f172a; }
+.headerBlock p { margin:0 0 16px; color:#475569; }
+
+.grid { display:grid; gap:16px; }
+.card {
+  background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+.field { display:grid; gap:8px; margin-bottom:12px; }
+.field > span { color:#334155; font-weight:600; font-size:14px; }
+.field input, .field select, .field textarea {
+  background:#fff; color:#0f172a; border:1px solid #e5e7eb; border-radius:12px; padding:12px 14px; font-size:16px;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline:none; border-color:#2c86b6; box-shadow:0 0 0 4px rgba(44,134,182,.15);
+}
+.primaryBtn { background:#2c86b6; color:#fff; font-weight:700; border:0; border-radius:12px; padding:12px 18px; box-shadow:0 8px 20px rgba(44,134,182,.28); }
+.primaryBtn:hover { background:#236b90; }
+.success { color:#166534; background:#ecfdf5; border:1px solid #86efac; padding:10px 12px; border-radius:10px; margin-top:8px; }
+.error   { color:#7f1d1d; background:#fef2f2; border:1px solid #fecaca; padding:10px 12px; border-radius:10px; margin-top:8px; }
+
+.list { list-style:none; padding:0; margin:0; display:grid; gap:12px; }
+.review {
+  background:#ffffff; color:#0f172a;
+  border:1px solid #e5e7eb; border-radius:16px; padding:14px 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+.reviewHead { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.stars { color:#f59e0b; letter-spacing:1px; }
+
+@media (min-width: 900px) {
+  .grid { grid-template-columns: 360px 1fr; align-items:start; gap:20px; }
+  .card { position: sticky; top: 96px; }
+}
