@@ -1,95 +1,63 @@
-import Image from "next/image";
+// src/app/page.js
+import Link from "next/link";
 import styles from "./page.module.css";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      {/* HERO */}
+      <section className={styles.hero} role="banner" aria-label="Hero">
+        <div className={styles.herodiv}>
+          <h1>Crystal Clear Results Every Time</h1>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+          {/* If you want a separate contact page, use /contact (you already have that route) */}
+          <Link href="/contact" className={styles.ctaButton}>
+            <Link href="/quotes" className={styles.link}>Get a Free Quote</Link>
+          </Link>
+
+          {/* If you’d rather scroll to a contact section on this page, 
+              change href to "#contact" and add an element with id="contact" below. */}
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* SERVICES */}
+      <section className={styles.services} aria-labelledby="services-heading">
+        <h2 id="services-heading">Our Services</h2>
+
+        {/* List = better semantics + screen readers */}
+        <ul className={styles.serviceGrid}>
+          <li className={styles.serviceCard}>
+            {/* optional icon slot: <span className={styles.icon} aria-hidden="true">🏠</span> */}
+            <h3 className="title">Residential Window Cleaning</h3>
+          </li>
+
+          <li className={styles.serviceCard}>
+            <h3 className="title">Commercial Window Cleaning</h3>
+          </li>
+
+          <li className={styles.serviceCard}>
+            <h3 className="title">Hard Water Stain Removal</h3>
+          </li>
+
+          <li className={styles.serviceCard}>
+            <h3 className="title">Screen &amp; Track Cleaning</h3>
+          </li>
+        </ul>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className={styles.testimonials} aria-labelledby="testimonials-heading">
+        <h2 id="testimonials-heading">Testimonials</h2>
+        <p className={styles.quote}>
+          “The best window cleaning service I’ve ever used! My windows look amazing.”
+          <br />
+          <small>— David R.</small>
+        </p>
+      </section>
+
+      {/* If you want the CTA to scroll here instead of /contact, 
+          add id="contact" to this section and change the CTA href to "#contact" */}
+      {/* <section id="contact">...</section> */}
+    </>
   );
 }

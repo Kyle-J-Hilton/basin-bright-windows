@@ -1,0 +1,97 @@
+/* --- Layout --- */
+.header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+  
+    /* transparent over hero; blur for readability */
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: saturate(140%) blur(8px);
+    -webkit-backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* --- Logo --- */
+  .logoContainer {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  
+  .logoImg { display: block; }
+  
+  .logoText { line-height: 1; }
+  .brandTop {
+    display: block;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: #003b6b;
+  }
+  .brandSub {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #334155;
+  }
+  
+  /* --- Desktop Nav --- */
+  .nav {
+    display: none; /* hidden on mobile */
+    gap: 28px;
+    align-items: center;
+  }
+  .link {
+    font-size: 15px;
+    font-weight: 500;
+    color: #0f172a;
+    text-decoration: none;
+  }
+  .link:hover { opacity: 0.8; }
+  
+  /* --- Mobile menu button --- */
+  .menuBtn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 40px; height: 40px;
+    border: none; background: transparent; cursor: pointer;
+  }
+  .menuBar { width: 22px; height: 2px; background: #0f172a; border-radius: 2px; }
+  
+  /* --- Mobile drawer --- */
+  .mobileMenu {
+    display: grid;
+    gap: 6px;
+    padding: 10px 16px 16px;
+    background: rgba(255,255,255,0.95);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .mobileLink {
+    padding: 10px 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f172a;
+    text-decoration: none;
+  }
+  
+  /* --- Breakpoints --- */
+  @media (min-width: 768px) {
+    .menuBtn { display: none; }
+    .mobileMenu { display: none !important; }
+  
+    .nav { display: inline-flex; }
+    .brandTop { font-size: 20px; }
+    .brandSub { font-size: 12px; }
+  }

@@ -1,167 +1,241 @@
-.page {
-  --gray-rgb: 0, 0, 0;
-  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
-  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+/* src/app/page.module.css */
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
+/* ========== HERO ========== */
+.hero {
+  /* image fills, keep the squeegee in view on mobile */
+  background: url('/hero.png') no-repeat 70% center / cover;
 
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-  align-items: center;
-  justify-items: center;
-  min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
-  font-family: var(--font-geist-sans);
-}
+  position: relative;
+  color: #fff;
 
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-  }
-}
-
-.main {
+  /* mobile-first layout */
   display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  width: 100%;            /* avoid 100vw scrollbars */
+  min-height: 92vh;
+  padding: 72px 20px 56px; /* room for header + CTA */
+
+  overflow: hidden;
+  z-index: 1;
 }
 
-.main ol {
-  font-family: var(--font-geist-mono);
-  padding-left: 0;
-  margin: 0;
-  font-size: 14px;
-  line-height: 24px;
+/* dark/blue overlay for legibility */
+.hero::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 38, 84, 0.35) 0%,
+    rgba(0, 38, 84, 0.15) 45%,
+    rgba(0, 38, 84, 0.35) 100%
+  );
+  z-index: -1; /* sit under text */
+}
+
+/* container for the text */
+.herodiv {
+  width: 100%;
+  max-width: 80vw; 
+    
+  margin: 0;          /* no left offset on mobile */
+  text-align: left;
+}
+
+.hero h1 {
+  font-weight: 800;
+  margin: 0 0vw 0vw;
   letter-spacing: -0.01em;
-  list-style-position: inside;
+  line-height: 1.05;
+  /* scales smoothly from small phones up */
+  font-size: clamp(32px, 8.5vw, 44px);
 }
 
-.main li:not(:last-of-type) {
-  margin-bottom: 8px;
+/* CTA */
+.ctaButton {
+  display: inline-block;
+  background-color: #2c86b6;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: clamp(16px, 4.2vw, 18px);
+  line-height: 1;
+  box-shadow: 0 8px 20px rgba(44,134,182,0.35);
+  transform: translateZ(0); /* crisper on mobile */
+}
+.ctaButton:hover { background-color: #236b90; }
+
+/* If your header/nav overlaps, ensure it's above the overlay */
+.header, .nav { position: relative; z-index: 2; }
+
+/* ========== SERVICES ========== */
+.services {
+  padding: 36px 16px;
+  text-align: left;           /* like the mock */
+  background: #fff;
 }
 
-.main code {
-  font-family: inherit;
-  background: var(--gray-alpha-100);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
+.services h2 {
+  font-size: clamp(22px, 6vw, 28px);
+  margin: 0 0 20px;
+  color: #1b1b1b;
 }
 
-.ctas {
-  display: flex;
-  gap: 16px;
+.serviceGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* single column on mobile */
+  gap: 12px;
+  margin: 0 auto;
 }
 
-.ctas a {
-  appearance: none;
-  border-radius: 128px;
-  height: 48px;
-  padding: 0 20px;
-  border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-  cursor: pointer;
+.serviceCard {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  color: #1b1b1b;
+}
+
+/* stop “Wi ndow” breaks */
+.serviceCard h3,
+.serviceCard .title {
+  margin: 0;
   font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
+  font-weight: 700;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  hyphens: none;
 }
 
-a.primary {
-  background: var(--foreground);
-  color: var(--background);
-  gap: 8px;
+/* ========== TESTIMONIALS ========== */
+.testimonials {
+  padding: 40px 16px;
+  background: #f9fafb;
+  text-align: left;
+}
+.testimonials h2 {
+  font-size: clamp(22px, 6vw, 28px);
+  margin: 0 0 16px;
+}
+.quote {
+  font-size: 16px;
+  font-style: italic;
+  margin: 0;
+  color: #333;
 }
 
-a.secondary {
-  border-color: var(--gray-alpha-200);
-  min-width: 158px;
-}
+/* ========== TABLET / DESKTOP UPGRADES ========== */
 
-.footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
-}
-
-.footer a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer img {
-  flex-shrink: 0;
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
+@media (max-width: 500px) {
+  .hero h1 {
+    width: 50vw;
+    margin: 85vw 25vw 0vw;
+    font-size: 2.5rem;
   }
+  
+  /* CTA */
+  .ctaButton {
+    font-size: 2.5rem;
+    margin-left: 10vw;
 
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-
-  .footer a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
   }
 }
 
-@media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
-  }
+@media (min-width: 640px) {
+  .hero { padding: 96px 32px; min-height: 85vh; background-position: 60% center; }
+  .herodiv { max-width: 32rem; }
+  .serviceGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+}
+@media (min-width: 1024px) {
+  .hero { background-position: center; }
+  .services { padding: 64px 32px; }
+  .serviceGrid { gap: 24px; }
+  .serviceCard { padding: 20px; }
+}
 
-  .main {
-    align-items: center;
-  }
 
-  .main ol {
-    text-align: center;
-  }
+/* default mobile stays the same (your /hero.png) */
 
-  .ctas {
-    flex-direction: column;
-  }
+/* === Desktop hero source swapping (lightweight WebP + PNG fallback) === */
 
-  .ctas a {
-    font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
+/* 1024–1279px: 1600×900 */
+@media (min-width: 1024px) {
+  .hero {
+    /* WebP primary + PNG fallback */
+    background-image: image-set(
+      url('/hero_desktop_1600x900_q80.webp') type('image/webp') 1x,
+      url('/hero_desktop_1600x900.png') type('image/png') 1x
+    );
+    background-size: cover;          /* full-bleed */
+    background-position: 60% center; /* more room for the H1 */
+    min-height: 80vh;
   }
-
-  a.secondary {
-    min-width: auto;
+  .hero h1 {
+    width: 40vw;
+    font-weight: 800;
+    margin: 0 10vw 0vw;
+    font-size: 4rem;
   }
+  
+  /* CTA */
+  .ctaButton {
+    font-size: 2.5rem;
+    margin-left: 10vw;
 
-  .footer {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+  }
+ 
+  
+}
+
+@media (min-width: 1280px) {
+  .hero {
+    background-image: image-set(
+      url('/hero_desktop_2048x1152_q80.webp') type('image/webp') 1x,
+      url('/hero_desktop_2048x1152.png') type('image/png') 1x
+    );
+    background-size: contain;        /* show full image */
+    background-position: center top; /* keep squeegee high */
+    background-repeat: no-repeat;
+    background-color: #cfe8f7;        /* matches sky color */
+  }
+}
+/* Desktop: ease up the overlay so the left fade isn't chunky */
+@media (min-width: 1024px) {
+  .hero::after {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 38, 84, 0.20) 0%,
+      rgba(0, 38, 84, 0.10) 18%,
+      rgba(0, 38, 84, 0.00) 42%
+    );
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
+/* Very wide: no overlay (your desktop image already has a subtle fade) */
+@media (min-width: 1440px) {
+  .hero::after { background: none; }
+}
+
+
+
+/* Fallback for browsers without image-set() */
+@supports not (background-image: image-set(url('x.webp') type('image/webp') 1x)) {
+  @media (min-width: 1024px) {
+    .hero { background-image: url('/hero_desktop_1600x900.png'); }
   }
+  @media (min-width: 1280px) {
+    .hero { background-image: url('/hero_desktop_2048x1152.png'); }
+  }
+}
+
+/* Optional: save data on slow connections */
+@media (prefers-reduced-data: reduce) and (min-width: 1024px) {
+  .hero { background-image: url('/hero_desktop_1600x900_q80.webp'); }
 }
